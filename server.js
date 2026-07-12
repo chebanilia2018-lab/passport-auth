@@ -294,7 +294,6 @@ app.get("/logout", (req, res) => {
 
 
 
-// Подключение MongoDB и запуск сервера
 
 async function startServer() {
 

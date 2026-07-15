@@ -1,96 +1,194 @@
-# Passport Auth
+# Passport Auth MongoDB
 
-Учебный проект на Node.js и Express.
+## Описание проекта
 
-В проекте реализована авторизация пользователей с помощью Passport.js, а также добавлено подключение к MongoDB Atlas для получения и отображения данных из базы данных.
+В этом проекте реализован простой сервер на Node.js и Express.js с авторизацией пользователей через Passport.js и подключением к MongoDB.
 
----
+Также добавлены CRUD операции для работы с товарами из базы данных MongoDB.
 
-## Реализовано
+## Используемые технологии
 
-В проекте есть:
+* Node.js
+* Express.js
+* MongoDB
+* Passport.js
+* Passport Local Strategy
+* bcrypt
+* express-session
+* dotenv
 
-- регистрация пользователя через email и пароль
-- авторизация через Passport Local Strategy
-- сессии пользователей через express-session
-- защищённая страница для авторизованных пользователей
-- выход из аккаунта
-- хеширование паролей с помощью bcrypt
-- подключение MongoDB Atlas
-- получение данных из коллекции MongoDB и вывод их на страницу
+## Установка проекта
 
----
-
-## Маршруты
-
-Авторизация:
-
-- `/register` — страница регистрации
-- `/login` — страница входа
-- `/protected` — закрытая страница для авторизованных пользователей
-- `/logout` — выход из аккаунта
-
-MongoDB:
-
-- `/users` — вывод пользователей, полученных из MongoDB Atlas
-
----
-
-## Подключение MongoDB Atlas
-
-Для подключения к базе данных используется официальный MongoDB Node.js Driver.
-
-В файле `.env` необходимо указать:
-
-```env
-SECRET_KEY=your_secret_key
-PORT=3000
-MONGO_CONNECTION_STRING=your_mongodb_connection_string
-```
-
----
-
-## Установка и запуск
-
-Установить зависимости:
+Скачать проект и установить зависимости:
 
 ```bash
 npm install
 ```
 
-Запуск проекта:
+Запуск сервера:
 
 ```bash
 npm run dev
 ```
 
-После запуска сервер будет доступен:
+После запуска сервер доступен по адресу:
 
-```text
+```
 http://localhost:3000
 ```
 
-Страница с данными из MongoDB:
+## Авторизация
 
-```text
-http://localhost:3000/users
+В проекте реализованы:
+
+* регистрация пользователя
+* вход в систему
+* проверка авторизации через Passport
+* защищённая страница
+* выход из аккаунта
+
+## Маршруты пользователей
+
+### Страница главного меню
+
+```
+GET /
 ```
 
----
+### Регистрация
 
-## Используемые технологии
+```
+GET /register
+POST /register
+```
 
-- Node.js
-- Express.js
-- Passport.js
-- express-session
-- bcrypt
-- dotenv
-- MongoDB Atlas
-- MongoDB Driver
+### Вход
 
----
+```
+GET /login
+POST /login
+```
 
-## Репозиторий
+### Защищённая страница
+
+```
+GET /protected
+```
+
+### Выход
+
+```
+GET /logout
+```
+
+## Работа с товарами MongoDB
+
+Добавлены CRUD операции:
+
+### Получение всех товаров
+
+```
+GET /products
+```
+
+### Создание товара
+
+```
+POST /products
+```
+
+Пример данных:
+
+```json
+{
+    "name": "Keyboard",
+    "price": 50,
+    "type": "computer"
+}
+```
+
+### Создание нескольких товаров
+
+```
+POST /products/many
+```
+
+### Обновление товара
+
+```
+PUT /products/:name
+```
+
+### Обновление нескольких товаров
+
+```
+PUT /products
+```
+
+### Замена товара
+
+```
+PATCH /products/:name
+```
+
+### Удаление товара
+
+```
+DELETE /products/:name
+```
+
+### Удаление нескольких товаров
+
+```
+DELETE /products
+```
+
+## Структура проекта
+
+```
+passport-auth
+
+│── routes
+│   ├── usersRouter.js
+│   └── productsRouter.js
+
+│── services
+│   ├── usersService.js
+│   └── productsService.js
+
+│── db.js
+│── server.js
+│── package.json
+│── .env
+│── README.md
+```
+
+## Подключение MongoDB
+
+Для подключения используется переменная окружения:
+
+```
+MONGO_CONNECTION_STRING
+```
+
+Также в файле `.env` хранится секретный ключ для сессий:
+
+```
+SECRET_KEY
+```
+
+## Выполнено
+
+В проекте реализованы:
+
+* настройка Express сервера
+* подключение MongoDB
+* авторизация через Passport
+* работа с сессиями
+* хеширование паролей через bcrypt
+* CRUD операции с MongoDB
+## GitHub
+
+Ссылка на репозиторий:
 
 https://github.com/chebanilia2018-lab/passport-auth.git

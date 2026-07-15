@@ -563,11 +563,14 @@ app.get("/logout", (req, res) => {
 
 
 
+<<<<<<< HEAD
 
 
 
 
 
+=======
+>>>>>>> 34535a5d340bb02df842e112928bb937944b3b51
 
 async function startServer() {
 
@@ -612,8 +615,12 @@ async function startServer() {
 }
 
 
+<<<<<<< HEAD
 
 
 
 
 startServer();
+=======
+startServer();
+>>>>>>> 34535a5d340bb02df842e112928bb937944b3b51

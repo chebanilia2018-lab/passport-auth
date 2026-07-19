@@ -2,6 +2,8 @@ import express from "express";
 
 import {
     getProducts,
+    getProductsStatistics,
+    getProductsCursor,
     createProduct,
     createManyProducts,
     updateProduct,
@@ -20,12 +22,22 @@ export const productsRouter = express.Router();
 
 
 
+
 productsRouter.get("/products", async (req, res) => {
 
     try {
 
 
-        const result = await getProducts();
+        const page = Number(req.query.page) || 1;
+
+        const limit = Number(req.query.limit) || 5;
+
+
+
+        const result = await getProducts(
+            page,
+            limit
+        );
 
 
         res.json(result);
@@ -48,6 +60,90 @@ productsRouter.get("/products", async (req, res) => {
 
 
     }
+
+});
+
+
+
+
+
+
+
+
+
+productsRouter.get("/products/statistics", async (req, res) => {
+
+
+    try {
+
+
+        const result = await getProductsStatistics();
+
+
+        res.json(result);
+
+
+
+    } catch (error) {
+
+
+        console.log(error);
+
+
+        res.status(500).json({
+
+            message: "Cannot get statistics",
+
+            error: error.message
+
+        });
+
+
+    }
+
+
+});
+
+
+
+
+
+
+
+
+
+// Cursor route
+
+productsRouter.get("/products/cursor", async (req, res) => {
+
+
+    try {
+
+
+        const result = await getProductsCursor();
+
+
+        res.json(result);
+
+
+
+    } catch (error) {
+
+
+        console.log(error);
+
+
+        res.status(500).json({
+
+            message: "Cannot get products with cursor",
+
+            error: error.message
+
+        });
+
+
+    }
+
 
 });
 

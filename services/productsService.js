@@ -13,9 +13,17 @@ function productsCollection() {
 
 
 
-export async function getProducts() {
+
+
+
+export async function getProducts(page = 1, limit = 5) {
+
 
     const collection = productsCollection();
+
+
+    const skip = (page - 1) * limit;
+
 
 
     const products = await collection
@@ -30,12 +38,140 @@ export async function getProducts() {
                 }
             }
         )
+        .sort({
+            name: 1
+        })
+        .skip(skip)
+        .limit(limit)
         .toArray();
+
+
+
+    const totalProducts = await collection.countDocuments();
+
+
+
+    return {
+
+        totalProducts,
+
+        currentPage: page,
+
+        pageSize: limit,
+
+        products
+
+    };
+
+
+}
+
+
+
+
+
+
+
+
+
+
+export async function getProductsStatistics() {
+
+
+    const collection = productsCollection();
+
+
+
+    const result = await collection.aggregate([
+
+
+        {
+            $group: {
+
+                _id: "$type",
+
+                totalProducts: {
+                    $sum: 1
+                },
+
+                averagePrice: {
+                    $avg: "$price"
+                }
+
+            }
+
+        },
+
+
+        {
+            $sort: {
+
+                totalProducts: -1
+
+            }
+
+        }
+
+
+    ]).toArray();
+
+
+
+    return result;
+
+
+}
+
+
+
+
+
+
+
+
+
+
+// Cursor example
+
+export async function getProductsCursor(){
+
+
+    const collection = productsCollection();
+
+
+
+    const cursor = collection.find({});
+
+
+
+    const products = [];
+
+
+
+    while(await cursor.hasNext()){
+
+
+        const product = await cursor.next();
+
+
+        products.push(product);
+
+
+    }
+
 
 
     return products;
 
+
 }
+
+
+
+
+
+
+
 
 
 
@@ -55,6 +191,11 @@ export async function createProduct(product) {
 
 
 
+
+
+
+
+
 export async function createManyProducts(products) {
 
     const collection = productsCollection();
@@ -66,6 +207,12 @@ export async function createManyProducts(products) {
     return result;
 
 }
+
+
+
+
+
+
 
 
 
@@ -95,6 +242,12 @@ export async function updateProduct(name, data) {
 
 
 
+
+
+
+
+
+
 export async function updateManyProducts(filter, data) {
 
     const collection = productsCollection();
@@ -114,6 +267,12 @@ export async function updateManyProducts(filter, data) {
     return result;
 
 }
+
+
+
+
+
+
 
 
 
@@ -141,6 +300,12 @@ export async function replaceProduct(name, product) {
 
 
 
+
+
+
+
+
+
 export async function deleteProduct(name) {
 
     const collection = productsCollection();
@@ -156,6 +321,12 @@ export async function deleteProduct(name) {
     return result;
 
 }
+
+
+
+
+
+
 
 
 

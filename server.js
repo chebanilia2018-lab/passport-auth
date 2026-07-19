@@ -4,9 +4,11 @@ import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
 import bcrypt from "bcrypt";
 import dotenv from "dotenv";
+
 import { connectDatabase } from "./db.js";
 import { usersRouter } from "./routes/usersRouter.js";
 import { productsRouter } from "./routes/productsRouter.js";
+
 
 dotenv.config();
 
@@ -20,21 +22,14 @@ const users = [];
 
 
 
-
 app.use(express.json());
-
-
 
 app.use(express.urlencoded({ extended: true }));
 
 
+// Frontend files
 
-
-app.use(usersRouter);
-
-app.use(productsRouter);
-
-
+app.use(express.static("public"));
 
 
 
@@ -65,12 +60,16 @@ app.use(
 
 
 
-
-// Passport
-
 app.use(passport.initialize());
 
 app.use(passport.session());
+
+
+
+app.use(usersRouter);
+
+app.use(productsRouter);
+
 
 
 
@@ -90,7 +89,9 @@ passport.use(
 
 
                 const user = users.find(
-                    u => u.email === email
+
+                    user => user.email === email
+
                 );
 
 
@@ -156,12 +157,13 @@ passport.serializeUser((user, done) => {
 
 
 
+
 passport.deserializeUser((email, done) => {
 
 
     const user = users.find(
 
-        u => u.email === email
+        user => user.email === email
 
     );
 
@@ -196,7 +198,6 @@ function page(title, content) {
     <!DOCTYPE html>
 
     <html>
-
 
     <head>
 
@@ -252,7 +253,9 @@ app.get("/", (req, res) => {
 
             <a href="/users">Users from MongoDB</a><br>
 
-            <a href="/products">Products from MongoDB</a>
+            <a href="/products">Products from MongoDB</a><br>
+
+            <a href="/index.html">Frontend Products Page</a>
 
             `
 
@@ -262,6 +265,7 @@ app.get("/", (req, res) => {
 
 
 });
+
 
 
 
@@ -284,7 +288,7 @@ app.get("/register", (req, res) => {
             <form method="POST" action="/register">
 
 
-                <input 
+                <input
 
                 name="email"
 
@@ -293,7 +297,6 @@ app.get("/register", (req, res) => {
                 placeholder="email"
 
                 required />
-
 
 
                 <input
@@ -305,7 +308,6 @@ app.get("/register", (req, res) => {
                 placeholder="password"
 
                 required />
-
 
 
                 <button>Register</button>
@@ -321,6 +323,7 @@ app.get("/register", (req, res) => {
 
 
 });
+
 
 
 
@@ -352,7 +355,6 @@ app.get("/login", (req, res) => {
                 required />
 
 
-
                 <input
 
                 name="password"
@@ -360,7 +362,6 @@ app.get("/login", (req, res) => {
                 type="password"
 
                 required />
-
 
 
                 <button>Login</button>
@@ -384,6 +385,7 @@ app.get("/login", (req, res) => {
 
 
 
+
 app.post("/register", async (req, res) => {
 
 
@@ -393,7 +395,7 @@ app.post("/register", async (req, res) => {
 
     const exists = users.find(
 
-        u => u.email === email
+        user => user.email === email
 
     );
 
@@ -466,7 +468,6 @@ app.post(
         }
 
     ),
-
 
 
     (req, res) => {
@@ -546,6 +547,7 @@ app.get("/protected", checkAuth, (req, res) => {
 
 
 
+
 app.get("/logout", (req, res) => {
 
 
@@ -563,14 +565,12 @@ app.get("/logout", (req, res) => {
 
 
 
-<<<<<<< HEAD
 
 
 
 
 
-=======
->>>>>>> 34535a5d340bb02df842e112928bb937944b3b51
+
 
 async function startServer() {
 
@@ -615,12 +615,5 @@ async function startServer() {
 }
 
 
-<<<<<<< HEAD
-
-
-
 
 startServer();
-=======
-startServer();
->>>>>>> 34535a5d340bb02df842e112928bb937944b3b51

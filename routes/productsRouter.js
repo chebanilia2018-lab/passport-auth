@@ -112,7 +112,7 @@ productsRouter.get("/products/statistics", async (req, res) => {
 
 
 
-// Cursor route
+
 
 productsRouter.get("/products/cursor", async (req, res) => {
 

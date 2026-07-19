@@ -131,7 +131,6 @@ export async function getProductsStatistics() {
 
 
 
-// Cursor example
 
 export async function getProductsCursor(){
 
